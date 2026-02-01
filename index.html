@@ -2,152 +2,172 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
-    <title>Une question importante...</title>
+    <title>Question</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary: #d946a6;
-            --success: #56ab2f;
-            --glass: rgba(255, 255, 255, 0.95);
-            --shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            --text: #1a1a1a;
+            --bg-grad: radial-gradient(circle at center, #f3f4f6, #e5e7eb);
         }
 
         body {
             margin: 0; padding: 0;
             display: flex; justify-content: center; align-items: center;
             height: 100vh; width: 100vw;
-            background: radial-gradient(circle at center, #fff0f6, #ffd1e8);
-            font-family: 'Poppins', sans-serif;
+            background: #fff0f5; /* Fond très léger */
+            font-family: 'Inter', sans-serif; /* Police simple */
             overflow: hidden; 
             -webkit-tap-highlight-color: transparent;
-            color: #4a4a4a;
-            position: relative;
+            color: var(--text);
         }
 
-        /* --- PARTICULES FOND --- */
+        /* --- PARTICULES DISCRÈTES --- */
         .bg-heart {
-            position: absolute; color: rgba(255, 255, 255, 0.6);
+            position: absolute; color: rgba(217, 70, 166, 0.15); /* Cœurs très discrets */
             font-size: 2rem; animation: floatUp linear infinite; z-index: 0; 
             pointer-events: none; user-select: none;
         }
         @keyframes floatUp {
             0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+            50% { opacity: 1; }
             100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
-        /* --- DESIGN CARTE --- */
-        .glass-panel {
-            background: var(--glass);
-            padding: 2.5rem 2rem; border-radius: 24px;
-            box-shadow: var(--shadow);
+        /* --- CARTE MINIMALISTE --- */
+        .card {
+            background: white;
+            padding: 3rem 2rem; 
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); /* Ombre douce */
             width: 85%; max-width: 380px;
             text-align: center; 
             z-index: 10;
             position: relative;
-            border: 1px solid rgba(255,255,255,0.8);
         }
 
-        h1 { font-family: 'Sacramento', cursive; color: var(--primary); font-size: 2.8rem; margin-bottom: 1.5rem; line-height: 1; font-weight: 400; }
+        h1 { 
+            font-weight: 800; /* Gras simple */
+            color: var(--text); 
+            font-size: 1.8rem; 
+            margin-bottom: 2rem; 
+            line-height: 1.3;
+        }
         
-        /* --- ELEMENTS FORMULAIRE --- */
-        .mode-toggle { display: flex; background: #f0f2f5; padding: 5px; border-radius: 12px; margin-bottom: 1.5rem; }
-        .mode-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: transparent; color: #888; font-family: inherit; transition: 0.2s; }
-        .mode-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        h2 { font-size: 1.1rem; margin-bottom: 1.5rem; color: #555; }
+
+        /* --- FORMULAIRE SIMPLE --- */
+        .mode-toggle { display: flex; background: #f3f4f6; padding: 4px; border-radius: 10px; margin-bottom: 1.5rem; }
+        .mode-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: transparent; color: #666; font-family: inherit; transition:0.2s; }
+        .mode-btn.active { background: white; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         
         .form-section { display: none; text-align: left; }
-        .form-section.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
+        .form-section.active { display: block; }
+        
         .input-group { margin-bottom: 1rem; }
-        .input-group label { display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.8rem; color: #666; }
-        .input-group input, .input-group select { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 12px; box-sizing: border-box; font-family: inherit; font-size: 0.95rem; background: #fcfcfc; }
-        .input-group input:focus { border-color: var(--primary); outline: none; }
+        .input-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.85rem; color: #444; }
+        .input-group input, .input-group select { 
+            width: 100%; padding: 12px; border: 1px solid #ddd; 
+            border-radius: 8px; box-sizing: border-box; 
+            font-family: inherit; font-size: 1rem; background: #fff;
+        }
+        .input-group input:focus { border-color: black; outline: none; }
 
-        #generate-btn { width: 100%; padding: 15px; background: #222; color: white; border: none; border-radius: 12px; font-weight: 600; font-size:1rem; cursor: pointer; margin-top: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        #generate-btn:active { transform: scale(0.98); }
+        #generate-btn { 
+            width: 100%; padding: 14px; background: black; color: white; 
+            border: none; border-radius: 10px; font-weight: 600; font-size:1rem; 
+            cursor: pointer; margin-top: 10px; 
+        }
 
-        #share-section { margin-top: 1.2rem; border-top: 1px solid #eee; padding-top: 1.2rem; display: none; }
-        #share-url { font-size: 0.75rem; background: #f5f5f5; padding: 10px; border-radius: 8px; word-break: break-all; display: block; margin-bottom: 10px; font-family: monospace; color: #555; }
+        #share-section { margin-top: 1.5rem; display: none; }
+        #share-url { 
+            font-size: 0.8rem; color: #666; background: #f9f9f9; 
+            padding: 10px; border-radius: 6px; word-break: break-all; 
+            display: block; margin-bottom: 10px; font-family: monospace; 
+            border: 1px solid #eee;
+        }
 
-        /* --- BOUTONS OUI/NON --- */
-        .button-container { display: flex; gap: 15px; justify-content: center; align-items: center; height: 80px; margin-top: 1.5rem; }
-        .btn { padding: 0.9rem 2rem; font-size: 1rem; border: none; border-radius: 50px; cursor: pointer; font-weight: 800; transition: transform 0.2s; font-family: inherit; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        /* --- BOUTONS --- */
+        .button-container { display: flex; gap: 15px; justify-content: center; align-items: center; height: 80px; margin-top: 2rem; }
+        .btn { 
+            padding: 0.9rem 2.5rem; font-size: 1rem; border: none; border-radius: 8px; /* Coins moins arrondis = plus moderne */
+            cursor: pointer; font-weight: 700; transition: transform 0.1s; 
+            font-family: inherit; 
+        }
         
-        #yesBtn { background: var(--primary); color: white; z-index: 20; position: relative; }
-        #noBtn { background: white; color: #444; border: 2px solid #f0f0f0; transition: left 0.1s ease-out, top 0.1s ease-out; }
+        #yesBtn { background: #d946a6; color: white; z-index: 20; position: relative; }
+        #noBtn { background: #f3f4f6; color: black; transition: left 0.1s, top 0.1s; }
 
-        /* --- POPUP & SUCCESS --- */
-        .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); z-index: 99999; justify-content: center; align-items: center; }
+        /* --- POPUP --- */
+        .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(2px); z-index: 99999; justify-content: center; align-items: center; }
         .popup-overlay.visible { display: flex; }
-        .popup-content { background: white; padding: 2rem; border-radius: 20px; text-align: center; width: 280px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        .popup-content { background: white; padding: 2rem; border-radius: 16px; text-align: center; width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
         
+        /* --- SUCCES --- */
         .success-message { display: none; flex-direction: column; align-items: center; }
-        .heart-icon { font-size: 5rem; animation: heartbeat 1.2s infinite; margin-bottom: 0.5rem; }
-        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-
-        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 24px; border-radius: 50px; z-index: 2000; font-size: 0.85rem; font-weight: 600; }
+        #toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: black; color: white; padding: 10px 20px; border-radius: 6px; z-index: 2000; font-size: 0.9rem; }
         #toast.show { visibility: visible; animation: fade 0.3s; }
         @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div id="setup-screen" class="glass-panel">
-        <h1>Configuration</h1>
+    <div id="setup-screen" class="card">
+        <h2>Configuration</h2>
         <div class="mode-toggle">
             <button class="mode-btn active" onclick="sw('v')">St-Valentin</button>
-            <button class="mode-btn" onclick="sw('c')">Perso</button>
+            <button class="mode-btn" onclick="sw('c')">Autre</button>
         </div>
         
         <div id="f-v" class="form-section active">
-            <div class="input-group"><label>Prénom</label><input type="text" id="n" placeholder="Ex: Julie" autocomplete="off" /></div>
+            <div class="input-group"><label>Prénom</label><input type="text" id="n" placeholder="Prénom" autocomplete="off" /></div>
             <div class="input-group"><label>Rôle</label><select id="g"><option value="F">Ma Valentine</option><option value="M">Mon Valentin</option></select></div>
         </div>
         
         <div id="f-c" class="form-section">
-            <div class="input-group"><label>Question</label><input type="text" id="cq" placeholder="Ex: Resto ce soir ?" autocomplete="off" /></div>
-            <div class="input-group"><label>Message Succès</label><input type="text" id="cs" placeholder="Ex: Trop bien !" autocomplete="off" /></div>
+            <div class="input-group"><label>Question</label><input type="text" id="cq" placeholder="Ta question ?" autocomplete="off" /></div>
+            <div class="input-group"><label>Réponse</label><input type="text" id="cs" placeholder="Message succès" autocomplete="off" /></div>
         </div>
         
-        <button id="generate-btn" onclick="gen()">Générer le lien ✨</button>
+        <button id="generate-btn" onclick="gen()">Créer le lien</button>
         
         <div id="share-section">
             <span id="share-url"></span>
-            <button class="btn" style="padding:10px 20px; font-size:0.8rem; background:var(--primary); color:white; margin-top:8px;" onclick="cp()">Copier le lien</button>
+            <button class="btn" style="padding:10px 20px; font-size:0.85rem; background:#d946a6; color:white; width:100%" onclick="cp()">Copier</button>
         </div>
     </div>
 
-    <div id="main-container" class="glass-panel" style="display:none">
+    <div id="main-container" class="card" style="display:none">
         <h1 id="qt">...</h1>
         <div class="button-container">
-            <button class="btn" id="yesBtn" onclick="win()">OUI 💖</button>
+            <button class="btn" id="yesBtn" onclick="win()">OUI</button>
             <button class="btn" id="noBtn">NON</button>
         </div>
     </div>
 
     <div id="p-o" class="popup-overlay">
         <div class="popup-content">
-            <h3 style="color:var(--primary); margin-top:0; font-family:'Poppins'">Oups ! 🤨</h3>
-            <p style="color:#666; margin-bottom:1.5rem">Le bouton semble avoir un problème technique... Réessaie le rose !</p>
-            <button class="btn" style="background:var(--primary); color:white; padding:10px 20px; font-size:0.9rem" onclick="clp()">D'accord</button>
+            <h3 style="margin-top:0">Oups !</h3>
+            <p style="color:#666; margin-bottom:1.5rem">Le bouton "Non" a un problème...</p>
+            <button class="btn" style="background:black; color:white; padding:10px 20px;" onclick="clp()">Ok</button>
         </div>
     </div>
 
-    <div id="sm" class="glass-panel success-message" style="display:none">
-        <div class="heart-icon">❤️</div>
-        <h1 style="color:var(--success); margin:10px 0; font-family:'Poppins'; font-weight:800">Yaaay !</h1>
-        <p id="st" style="font-weight:600; font-size:1.2rem; color:#555"></p>
+    <div id="sm" class="card success-message" style="display:none">
+        <div style="font-size:4rem; margin-bottom:1rem">❤️</div>
+        <h1 style="margin:0; font-size:2rem">Yaaay !</h1>
+        <p id="st" style="font-size:1.2rem; color:#555; margin-top:10px"></p>
     </div>
 
-    <div id="toast">Lien copié !</div>
+    <div id="toast">Copié !</div>
 
     <script>
-        // --- LECTURE PARAMETRES URL ---
+        // --- URL MANAGEMENT ---
         const u = new URLSearchParams(window.location.search);
         const qParam = u.get('q');
         const rParam = u.get('r');
@@ -159,7 +179,7 @@
             document.getElementById('st').textContent = decodeURIComponent(rParam);
         }
 
-        // --- SETUP ADMIN ---
+        // --- ADMIN ---
         let m = 'v';
         function sw(x) {
             m = x;
@@ -172,16 +192,15 @@
             let resQ, resR;
             if (m === 'v') {
                 const name = document.getElementById('n').value.trim();
-                if(!name) return alert("Prénom manquant !");
-                const role = document.getElementById('g').value === 'F' ? 'ma Valentine' : 'mon Valentin';
-                resQ = `${name}, veux-tu être ${role} ?`;
+                if(!name) return alert("Prénom requis");
+                resQ = `${name}, veux-tu être ${document.getElementById('g').value === 'F' ? 'ma Valentine' : 'mon Valentin'} ?`;
                 resR = "Je le savais ! ❤️";
             } else {
                 resQ = document.getElementById('cq').value.trim();
                 resR = document.getElementById('cs').value.trim();
-                if(!resQ || !resR) return alert("Tout remplir !");
+                if(!resQ || !resR) return alert("Champs requis");
             }
-            // Création lien court
+            // Lien optimisé
             const link = `${window.location.origin}${window.location.pathname}?q=${encodeURIComponent(resQ)}&r=${encodeURIComponent(resR)}`;
             document.getElementById('share-url').textContent = link;
             document.getElementById('share-section').style.display = 'block';
@@ -193,7 +212,7 @@
             setTimeout(() => t.className = '', 2000);
         }
 
-        // --- LOGIQUE BOUTON NON (NUCLEAR MODE) ---
+        // --- GAME LOGIC ---
         const nb = document.getElementById('noBtn');
         const yb = document.getElementById('yesBtn');
         let c = 0, det = false, psh = false;
@@ -202,45 +221,32 @@
             if(e.type === 'touchstart') e.preventDefault();
             
             c++;
-            
-            // Popup au 5ème essai (une seule fois)
             if(c === 5 && !psh) { 
                 document.getElementById('p-o').classList.add('visible'); 
-                psh = true; 
-                return; 
+                psh = true; return; 
             }
 
-            // DETACHEMENT : On sort le bouton de la carte pour le mettre dans le BODY
-            // Ça assure qu'il est au-dessus de tout et ne disparait jamais derrière un truc
             if (!det) { 
                 det = true; 
                 nb.style.position = 'fixed'; 
-                nb.style.zIndex = '10000'; // Priorité MAX
+                nb.style.zIndex = '10000'; 
                 document.body.appendChild(nb); 
             }
 
-            // On grossit le OUI
-            yb.style.transform = `scale(${1 + (c * 0.1)})`;
+            // Mouvement simple sans grossir le OUI excessivement
+            yb.style.transform = `scale(${1 + (c * 0.05)})`;
 
-            // Calcul Position Safe (Marge de 20px)
             const maxX = window.innerWidth - nb.offsetWidth - 20;
             const maxY = window.innerHeight - nb.offsetHeight - 20;
             
-            const x = Math.max(10, Math.random() * maxX);
-            const y = Math.max(10, Math.random() * maxY);
-            
-            nb.style.left = x + 'px'; 
-            nb.style.top = y + 'px';
+            nb.style.left = Math.max(10, Math.random() * maxX) + 'px'; 
+            nb.style.top = Math.max(10, Math.random() * maxY) + 'px';
         }
 
-        // Events
-        nb.onmouseover = mv; 
-        nb.ontouchstart = mv;
-        nb.onclick = mv; // Sécurité
+        nb.onmouseover = mv; nb.ontouchstart = mv; nb.onclick = mv;
 
         function clp() { 
             document.getElementById('p-o').classList.remove('visible'); 
-            // On le bouge tout de suite après fermeture
             setTimeout(() => mv({type:'auto'}), 100);
         }
 
@@ -251,16 +257,14 @@
             herts(true);
         }
         
-        // --- BACKGROUND HEARTS ---
         function herts(burst = false) {
-            const limit = burst ? 50 : 15;
+            const limit = burst ? 40 : 10;
             for (let i = 0; i < limit; i++) {
                 const h = document.createElement('div'); h.className = 'bg-heart'; h.textContent = '❤️';
                 h.style.left = Math.random() * 100 + 'vw'; 
-                h.style.animationDuration = (3 + Math.random() * 5) + 's';
-                h.style.fontSize = (1 + Math.random() * 2) + 'rem';
+                h.style.animationDuration = (4 + Math.random() * 6) + 's';
                 document.body.appendChild(h);
-                if(burst) setTimeout(() => h.remove(), 5000);
+                if(burst) setTimeout(() => h.remove(), 4000);
             }
         }
         herts();
