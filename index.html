@@ -2,9 +2,10 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Pour Soupette</title>
+  <title>Demande Valentin</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    /* --- Styles Généraux --- */
     body {
       margin: 0;
       padding: 0;
@@ -12,155 +13,260 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: radial-gradient(circle at top, #ffe6f0, #ffb6c1);
-      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at center, #ffe6f0, #ffc1e3);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       overflow: hidden;
+      color: #333;
     }
-    .container {
+
+    /* --- Cœurs en arrière-plan (Effet visuel) --- */
+    .bg-heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 2rem;
+      animation: floatUp linear infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* --- Conteneurs --- */
+    .screen {
       text-align: center;
       position: relative;
-      z-index: 1;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      display: none; /* Masqué par défaut */
+      max-width: 90%;
+      width: 400px;
+      backdrop-filter: blur(5px);
     }
+
+    /* Afficher l'écran actif */
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: popIn 0.5s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
     h1 {
       color: #d32f2f;
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
     }
+
+    /* --- Inputs & Boutons --- */
+    input[type="text"] {
+      padding: 12px;
+      width: 80%;
+      border: 2px solid #ff4081;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      outline: none;
+      text-align: center;
+    }
+
     .buttons {
       display: flex;
       gap: 20px;
-      justify-content: center;
-      align-items: center;
       margin-top: 1rem;
-      position: relative;
     }
+
     button {
-      padding: 15px 30px;
-      font-size: 1.2rem;
+      padding: 12px 25px;
+      font-size: 1.1rem;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+      transition: all 0.3s ease;
       font-weight: bold;
     }
+
+    /* Bouton Configuration */
+    .btn-start {
+      background-color: #333;
+      color: white;
+    }
+    .btn-start:hover { background-color: #000; transform: scale(1.05); }
+
+    /* Bouton OUI */
     #btn-yes {
       background-color: #ff4081;
       color: white;
       box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+      animation: pulse 1.5s infinite;
     }
     #btn-yes:hover {
       transform: scale(1.1);
       background-color: #f50057;
-      box-shadow: 0 6px 20px rgba(245, 0, 87, 0.5);
     }
+
+    /* Animation Battement de cœur */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 64, 129, 0.6); }
+      100% { transform: scale(1); }
+    }
+
+    /* Bouton NON */
     #btn-no {
-      background-color: #ffffff;
+      background-color: #fff;
       color: #ff4081;
       border: 2px solid #ff4081;
+      position: relative; /* Pour le mouvement */
     }
-    #success-message {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeIn 1s;
-    }
-    #success-message p {
-      font-size: 1.2rem;
-      color: #555;
-      margin: 0.5rem 0;
-    }
-    #success-message img {
-      width: 200px;
-      margin-top: 20px;
+
+    /* --- Écran Succès --- */
+    #success-screen img {
+      width: 100%;
+      max-width: 300px;
       border-radius: 10px;
+      margin-top: 15px;
     }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+
+    /* --- Confetti --- */
     .confetti {
       position: fixed;
       width: 10px;
       height: 10px;
-      background-color: #f00;
-      animation: fall linear forwards;
       top: -10px;
-      z-index: 0;
+      z-index: 10;
+      animation: fall linear forwards;
     }
     @keyframes fall {
-      to {
-        transform: translateY(110vh) rotate(720deg);
-        opacity: 0;
-      }
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
+
   </style>
 </head>
 <body>
-  <div class="container" id="main-content">
-    <h1>Soupette, veux-tu être mon Valentin&nbsp;?</h1>
+
+  <div id="setup-screen" class="screen active">
+    <h1>Configuration ⚙️</h1>
+    <p>Qui est l'heureux(se) élu(e) ?</p>
+    <input type="text" id="name-input" placeholder="Entrez le prénom ici..." />
+    <button class="btn-start" onclick="startProposal()">Générer la demande</button>
+  </div>
+
+  <div id="proposal-screen" class="screen">
+    <h1 id="proposal-text">Veux-tu être mon Valentin ?</h1>
     <div class="buttons">
       <button id="btn-yes">OUI ❤️</button>
       <button id="btn-no">NON</button>
     </div>
   </div>
-  <div id="success-message">
-    <h1>Wouhou ! Je savais que tu dirais oui ! ❤️</h1>
-    <p>Rendez-vous le 14 février.</p>
+
+  <div id="success-screen" class="screen">
+    <h1>Wouhou ! ❤️</h1>
+    <p>Rendez-vous le 14 février !</p>
     <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="Célébration"/>
   </div>
+
   <script>
+    /* --- Variables DOM --- */
+    const setupScreen = document.getElementById('setup-screen');
+    const proposalScreen = document.getElementById('proposal-screen');
+    const successScreen = document.getElementById('success-screen');
+    const nameInput = document.getElementById('name-input');
+    const proposalText = document.getElementById('proposal-text');
+    
     const btnNo = document.getElementById('btn-no');
     const btnYes = document.getElementById('btn-yes');
-    const mainContent = document.getElementById('main-content');
-    const successMessage = document.getElementById('success-message');
 
-    function moveButton() {
-          btnNo.style.position = 'absolute';
-      const btnWidth = btnNo.offsetWidth;
-      const btnHeight = btnNo.offsetHeight;
-      const padding = 50;
-      const maxX = window.innerWidth - btnWidth - padding;
-      const maxY = window.innerHeight - btnHeight - padding;
+    /* --- 1. Lancer la demande --- */
+    function startProposal() {
+      const name = nameInput.value.trim();
+      if (!name) {
+        alert("Merci d'entrer un prénom !");
+        return;
+      }
       
-      const newX = Math.max(padding, Math.min(maxX, Math.random() * (maxX - padding) + padding));
-      const newY = Math.max(padding, Math.min(maxY, Math.random() * (maxY - padding) + padding));
+      // Mise à jour du texte
+      proposalText.innerHTML = `${name}, veux-tu être mon Valentin&nbsp;?`;
       
-      btnNo.style.left = newX + 'px';
-      btnNo.style.top = newY + 'px';
+      // Changement d'écran
+      setupScreen.classList.remove('active');
+      proposalScreen.classList.add('active');
+      
+      // Démarrer les cœurs en fond
+      startBackgroundHearts();
     }
 
+    /* --- 2. Logique du bouton fuyant --- */
+    function moveButton() {
+      // On passe le bouton en position fixed pour qu'il puisse sortir du conteneur "screen"
+      btnNo.style.position = 'fixed'; 
+      
+      const width = btnNo.offsetWidth;
+      const height = btnNo.offsetHeight;
+      const padding = 50; // Marge de sécurité
+
+      // Calcul de nouvelles coordonnées aléatoires dans la fenêtre
+      const maxX = window.innerWidth - width - padding;
+      const maxY = window.innerHeight - height - padding;
+
+      const newX = Math.random() * (maxX - padding) + padding;
+      const newY = Math.random() * (maxY - padding) + padding;
+
+      btnNo.style.left = `${newX}px`;
+      btnNo.style.top = `${newY}px`;
+    }
+
+    // Déclencheurs de fuite
     btnNo.addEventListener('mouseover', moveButton);
-    btnNo.addEventListener('mouseenter', moveButton);
-    btnNo.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      moveButton();
-    });
+    btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); moveButton(); });
+    btnNo.addEventListener('click', (e) => { e.preventDefault(); moveButton(); }); // Au cas où on clique trop vite
 
+    /* --- 3. Logique du OUI --- */
     btnYes.addEventListener('click', () => {
-      mainContent.style.display = 'none';
-      successMessage.style.display = 'flex';
-      createConfetti();
+      proposalScreen.classList.remove('active');
+      successScreen.classList.add('active');
+      launchConfetti();
     });
 
-    function createConfetti() {
+    /* --- 4. Effets Visuels (Cœurs de fond) --- */
+    function startBackgroundHearts() {
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('bg-heart');
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 3) + 's'; // Vitesse aléatoire
+        heart.style.fontSize = (Math.random() * 20 + 10) + 'px'; // Taille aléatoire
+        document.body.appendChild(heart);
+        
+        // Nettoyage après l'animation
+        setTimeout(() => heart.remove(), 6000);
+      }, 500); // Un cœur toutes les 500ms
+    }
+
+    /* --- 5. Effets Confetti (Succès) --- */
+    function launchConfetti() {
       const colors = ['#ff4081', '#ffeb3b', '#4caf50', '#2196f3', '#ff9800'];
-      for (let i = 0; i < 80; i++) {
+      for (let i = 0; i < 100; i++) {
         const confetti = document.createElement('div');
         confetti.classList.add('confetti');
         confetti.style.left = Math.random() * 100 + 'vw';
         confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+        confetti.style.animationDuration = Math.random() * 2 + 1.5 + 's';
         document.body.appendChild(confetti);
-        setTimeout(() => {
-          confetti.remove();
-        }, 6000);
+        setTimeout(() => confetti.remove(), 4000);
       }
     }
   </script>
