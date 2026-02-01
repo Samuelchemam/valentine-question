@@ -33,6 +33,7 @@
       justify-content: center;
       align-items: center;
       margin-top: 1rem;
+      position: relative;
     }
     button {
       padding: 15px 30px;
@@ -57,8 +58,7 @@
       background-color: #ffffff;
       color: #ff4081;
       border: 2px solid #ff4081;
-            position: absolute;
-            left: 50%;
+      position: absolute;
     }
     #success-message {
       display: none;
@@ -114,43 +114,41 @@
   <div id="success-message">
     <h1>Wouhou ! Je savais que tu dirais oui ! ❤️</h1>
     <p>Rendez-vous le 14 février.</p>
-    <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="Célébration" />
+    <img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" alt="Célébration"/>
   </div>
   <script>
     const btnNo = document.getElementById('btn-no');
     const btnYes = document.getElementById('btn-yes');
     const mainContent = document.getElementById('main-content');
     const successMessage = document.getElementById('success-message');
-    function setInitialNoPosition() {
-      const centerX = window.innerWidth / 2 + 80;
-      const centerY = window.innerHeight / 2 + 40;
-      btnNo.style.left = centerX + 'px';
-      btnNo.style.top = centerY + 'px';
-    }
-    setInitialNoPosition();
-    window.addEventListener('resize', setInitialNoPosition);
+
     function moveButton() {
       const btnWidth = btnNo.offsetWidth;
       const btnHeight = btnNo.offsetHeight;
       const padding = 50;
       const maxX = window.innerWidth - btnWidth - padding;
       const maxY = window.innerHeight - btnHeight - padding;
-      const newX = Math.random() * (maxX - padding) + padding;
-      const newY = Math.random() * (maxY - padding) + padding;
+      
+      const newX = Math.max(padding, Math.min(maxX, Math.random() * (maxX - padding) + padding));
+      const newY = Math.max(padding, Math.min(maxY, Math.random() * (maxY - padding) + padding));
+      
       btnNo.style.left = newX + 'px';
       btnNo.style.top = newY + 'px';
     }
+
     btnNo.addEventListener('mouseover', moveButton);
     btnNo.addEventListener('mouseenter', moveButton);
     btnNo.addEventListener('touchstart', (e) => {
       e.preventDefault();
       moveButton();
     });
+
     btnYes.addEventListener('click', () => {
       mainContent.style.display = 'none';
       successMessage.style.display = 'flex';
       createConfetti();
     });
+
     function createConfetti() {
       const colors = ['#ff4081', '#ffeb3b', '#4caf50', '#2196f3', '#ff9800'];
       for (let i = 0; i < 80; i++) {
